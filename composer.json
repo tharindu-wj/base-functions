@@ -1,0 +1,28 @@
+{
+  "name": "e25/base",
+  "type": "wordpress-plugin",
+  "license": ["GPL-2.0"],
+
+  "description": "unyson framework for WordPress",
+  "authors": [
+    {
+      "name": "Tharindu Wickramasinghe",
+      "email": "tharinduwjh@gmail.com",
+      "homepage": "https://github.com/tharindu-wj/base"
+    }
+  ],
+  "keywords": [
+    "wordpress", "composer","wp","base"
+  ],
+  "require": {
+    "php": ">=5.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "E25\\Base\\": "src"
+    }
+  },
+  "scripts": {
+  }
+
+}
