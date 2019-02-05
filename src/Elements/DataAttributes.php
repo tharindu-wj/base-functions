@@ -8,15 +8,27 @@
 
 namespace E25\Base\Elements;
 
+use E25\Base\Models\DataAttributeModel;
 
 class DataAttributes
 {
+    private $dataAttributesModel = '';
+
+    /**
+     * DataAttributes constructor.
+     */
+    public function __construct()
+    {
+        $this->dataAttributesModel = new DataAttributeModel();
+    }
+
+
     /**
      * @param $data_attributes
      * @param $type
      * @return string
      */
-    public static function getDataAttribute($data_attributes, $type)
+    public function getDataAttribute($data_attributes, $type)
     {
         $data_attr_str = ' ';
         foreach ($data_attributes as $data_attribute) {
@@ -43,7 +55,7 @@ class DataAttributes
     /**
      * @return array
      */
-    public static function baseDataArray()
+    public function baseDataAttributeOptions()
     {
         return array(
             'type' => 'addable-box',
@@ -53,7 +65,7 @@ class DataAttributes
             'box-options' => array(
                 'attribute' => array(
                     'type' => 'multi-select',
-                    'choices' => self::getBaseAttributes(),
+                    'choices' => $this->dataAttributesModel->getBaseDataAttributes(),
                     'limit' => 1,
                 ),
                 'value' => array('type' => 'text'),
@@ -64,7 +76,7 @@ class DataAttributes
     /**
      * @return array
      */
-    public static function customDataArray()
+    public function customeDataAttributeOptions()
     {
         return array(
             'type' => 'addable-box',
@@ -78,33 +90,22 @@ class DataAttributes
         );
     }
 
-    /**
-     * @return array
-     * TODO
-     */
-    protected static function getBaseAttributes()
-    {
-        return array(
-            'data-float' => __('data-float', '{domain}'),
-            'data-fixed' => __('data-fixed', '{domain}'),
-            'data-test' => __('data-test', '{domain}'),
-        );
-    }
-
+    
     /**
      * @return array
      */
     public static function advancedTabOptions() {
         return array(
             'css_class' => array(
-                'type' => 'text',
+                'type' => 'multi-select',
                 'value' => '',
-                'label' => __('Custom Class', 'fw'),
-                'desc' => __('Enter custom CSS class.', 'fw'),
-                'help' => __('when adding more than one class, use space to separate them  eg- class-1 class-2')
+                'label' => __('CSS Classes', 'fw'),
+                'desc' => __('Add predefined css classes from theme.', 'fw'),
+                'choices' => (new self)->dataAttributesModel->getBaseCssClasses(),
+                'limit' => 100,
             ),
-            'data_attr_predefined' => DataAttributes::baseDataArray(),
-            'data_attr' => DataAttributes::customDataArray(),
+            'data_attr_predefined' => (new self)->baseDataAttributeOptions(),
+            'data_attr' => (new self)->customeDataAttributeOptions()
         );
     }
 }
