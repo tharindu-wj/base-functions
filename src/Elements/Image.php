@@ -17,12 +17,12 @@ class Image
             $field_name   => array(
                 'type'  => 'upload',
                 'label' => __($label, 'fw'),
-                'description' => __($description, 'fw'),
+                'desc' => __($description, 'fw'),
             ),
             $field_name.'_mask'   => array(
                 'type'  => 'upload',
                 'label' => __('Mask Image', 'fw'),
-                'description' => __('Add mask image for above image. *View will effected only if you add mask.', 'fw'),
+                'desc' => __('Add mask image for above image. *View will effected only if you add mask.', 'fw'),
             ),
             $field_name.'_alt'   => array(
                 'type'  => 'text',
@@ -102,16 +102,16 @@ class Image
                 //wp_get_attachment_url( $img['attachment_id'] );
             } else {
                 return array(
-                    'url' => self::$placeholder['url'],
-                    'alt' => self::$placeholder['alt'],
-                    'title' => self::$placeholder['title']
+                    'url' => '',
+                    'alt' => '',
+                    'title' => ''
                 );
             }
         } else {
             return array(
-                'url' => self::$placeholder['url'],
-                'alt' => self::$placeholder['alt'],
-                'title' => self::$placeholder['title']
+                'url' => '',
+                'alt' => '',
+                'title' => ''
             );
         }
     }
