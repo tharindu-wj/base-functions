@@ -40,7 +40,8 @@ class DataAttributeModel
 
     public function getBaseCssClasses()
     {
-        $classes_json = file_get_contents($this->json_path . '/core-components--theme.json');
+        $classes_obj= json_decode(file_get_contents($this->json_path . '/core-components--theme.json'), true) ;
+        fw_print($classes_obj);
         return array(
             'default' => __('Default', '{domain}'),
             'base' => __('Base Theme', '{domain}'),

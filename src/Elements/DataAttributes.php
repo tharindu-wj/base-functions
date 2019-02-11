@@ -9,6 +9,7 @@
 namespace E25\Base\Elements;
 
 use E25\Base\Models\DataAttributeModel;
+use E25\Base\Models\CssClass;
 
 class DataAttributes
 {
@@ -94,14 +95,14 @@ class DataAttributes
     /**
      * @return array
      */
-    public static function advancedTabOptions() {
+    public static function advancedTabOptions($module) {
         return array(
             'css_class' => array(
                 'type' => 'multi-select',
                 'value' => '',
                 'label' => __('CSS Classes', 'fw'),
                 'desc' => __('Add predefined css classes from theme.', 'fw'),
-                'choices' => (new self)->dataAttributesModel->getBaseCssClasses(),
+                'choices' => CssClass::all(),
                 'limit' => 100,
             ),
             'data_attr_predefined' => (new self)->baseDataAttributeOptions(),
