@@ -86,32 +86,38 @@ class Image
 
 
     /**
-     * @param $img
+     * @param $img : image filed key
+     * @param $arr : image filed root array
      * @param string $type
      * @return bool|false|string
      */
-    public function getImageData($img)
+    public static function getImageData($img, $arr)
     { // TODO need to do for image object.
-        if (is_array($img)) {
-            if ($img['attachment_id']) {
+        $img_arr = $arr[$img]; //Image option array
+        $mask_img_arr = $arr[$img.'_mask']; //Mask Image option array
+        if (is_array($img_arr)) {
+            if ($img_arr['attachment_id']) {
                 return array(
-                    'url' => wp_get_attachment_url($img['attachment_id']),
-                    'alt' => get_post_meta($img['attachment_id'], '_wp_attachment_image_alt', true),
-                    'title' => get_post_meta($img['attachment_id'], '_wp_attachment_image_alt', true)
+                    'url' => wp_get_attachment_url($img_arr['attachment_id']),
+                    'mask_url' => (is_array($mask_img_arr)) ? wp_get_attachment_url($arr[$img.'_mask']['attachment_id']) : null,
+                    'alt' => $arr[$img.'_alt'],
+                    'caption' => $arr[$img.'_caption']
                 );
                 //wp_get_attachment_url( $img['attachment_id'] );
             } else {
                 return array(
-                    'url' => '',
-                    'alt' => '',
-                    'title' => ''
+                    'url' => 'https://via.placeholder.com/300.png',
+                    'mask_url' => '',
+                    'alt' => 'placeholder',
+                    'caption' => 'placeholder'
                 );
             }
         } else {
             return array(
-                'url' => '',
-                'alt' => '',
-                'title' => ''
+                'url' => 'https://via.placeholder.com/300.png',
+                'mask_url' => '',
+                'alt' => 'placeholder',
+                'caption' => 'placeholder'
             );
         }
     }
