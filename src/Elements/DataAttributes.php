@@ -8,23 +8,25 @@
 
 namespace E25\Base\Elements;
 
-use E25\Base\Models\DataAttributeModel;
+use E25\Base\Models\DataAttribute;
 use E25\Base\Models\CssClass;
 
 class DataAttributes
 {
-    private $dataAttributesModel = '';
+    private $module;
 
     /**
      * DataAttributes constructor.
+     * @param $module
      */
-    public function __construct()
+    public function __construct($module)
     {
-        $this->dataAttributesModel = new DataAttributeModel();
+        $this->module = $module;
     }
 
 
     /**
+     * get data attribute string by option array
      * @param $data_attributes
      * @param $type
      * @return string
@@ -53,7 +55,10 @@ class DataAttributes
         return $data_attr_str;
     }
 
+
     /**
+     * @name predefined base data attributes options
+     * @input DataAttribute::all() : all data atrributes from data attribute model
      * @return array
      */
     public function baseDataAttributeOptions()
@@ -66,7 +71,7 @@ class DataAttributes
             'box-options' => array(
                 'attribute' => array(
                     'type' => 'multi-select',
-                    'choices' => $this->dataAttributesModel->getBaseDataAttributes(),
+                    'choices' => DataAttribute::all(),
                     'limit' => 1,
                 ),
                 'value' => array('type' => 'text'),
@@ -74,7 +79,9 @@ class DataAttributes
         );
     }
 
+    
     /**
+     * @name custom data attributes option
      * @return array
      */
     public function customeDataAttributeOptions()
@@ -91,22 +98,33 @@ class DataAttributes
         );
     }
 
+
+    /**
+     * @name predefined base data attributes options
+     * @input DataAttribute::all() : all data atrributes from data attribute model
+     * @return array
+     */
+    public function baseCssClassesOptions()
+    {
+        return array(
+                'type' => 'multi-select',
+                'value' => '',
+                'label' => __('Base CSS classes', 'fw'),
+                'desc' => __('Add predefined css classes from theme.', 'fw'),
+                'choices' => CssClass::find($this->module),
+                'limit' => 100,
+        );
+    }
+
     
     /**
      * @return array
      */
-    public static function advancedTabOptions($module) {
+    public function advancedTabOptions() {
         return array(
-            'css_class' => array(
-                'type' => 'multi-select',
-                'value' => '',
-                'label' => __('CSS Classes', 'fw'),
-                'desc' => __('Add predefined css classes from theme.', 'fw'),
-                'choices' => CssClass::all(),
-                'limit' => 100,
-            ),
-            'data_attr_predefined' => (new self)->baseDataAttributeOptions(),
-            'data_attr' => (new self)->customeDataAttributeOptions()
+            'css_class_base' => $this->baseCssClassesOptions(),
+            'data_attr_base' => $this->baseDataAttributeOptions(),
+            'data_attr_custom' => $this->customeDataAttributeOptions()
         );
     }
 }
